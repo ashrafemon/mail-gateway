@@ -4,7 +4,6 @@ namespace Leafwrap\MailGateways\Providers;
 
 use Exception;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Leafwrap\MailGateways\Contracts\ProviderContract;
 
 class Mailgun extends BaseProvider implements ProviderContract
@@ -23,8 +22,7 @@ class Mailgun extends BaseProvider implements ProviderContract
     public function urlGen(): void
     {
         $this->baseUrl = 'https://api.mailgun.net/v3/' . $this->credentials['senderDomain'];
-        $storageBaseUrl = 'https://storage-us-east4.api.mailgun.net/v3/domain/' . $this->credentials['senderDomain'];
-        $this->urls = ['retrieve' => $storageBaseUrl . '/messages/:id', 'send' => $this->baseUrl . '/messages'];
+        $this->urls = ['retrieve' => $this->baseUrl . '/events', 'send' => $this->baseUrl . '/messages'];
     }
 
     public function send($data)
@@ -35,7 +33,6 @@ class Mailgun extends BaseProvider implements ProviderContract
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 
@@ -51,12 +48,11 @@ class Mailgun extends BaseProvider implements ProviderContract
     public function retrieve($id)
     {
         try {
-            $client = Http::withBasicAuth('api', $this->credentials['appKey'])->withHeaders($this->defaultHeaders)->get(str_replace(':id', $id, $this->urls['retrieve']));
+            $client = Http::withBasicAuth('api', $this->credentials['appKey'])->withHeaders($this->defaultHeaders)->get($this->urls['retrieve']);
             if (!$client->successful()) {
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 }

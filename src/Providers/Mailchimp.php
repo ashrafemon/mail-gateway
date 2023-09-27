@@ -4,7 +4,6 @@ namespace Leafwrap\MailGateways\Providers;
 
 use Exception;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Leafwrap\MailGateways\Contracts\ProviderContract;
 
 class Mailchimp extends BaseProvider implements ProviderContract
@@ -34,7 +33,6 @@ class Mailchimp extends BaseProvider implements ProviderContract
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 
@@ -57,7 +55,6 @@ class Mailchimp extends BaseProvider implements ProviderContract
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 }

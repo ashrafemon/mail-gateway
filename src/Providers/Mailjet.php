@@ -4,7 +4,6 @@ namespace Leafwrap\MailGateways\Providers;
 
 use Exception;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Leafwrap\MailGateways\Contracts\ProviderContract;
 
 class Mailjet extends BaseProvider implements ProviderContract
@@ -18,7 +17,7 @@ class Mailjet extends BaseProvider implements ProviderContract
     public function urlGen(): void
     {
         $this->baseUrl = 'https://api.mailjet.com/v3';
-        $this->urls = ['retrieve' => $this->baseUrl . '/message/:id', 'send' => $this->baseUrl . '.1/send'];
+        $this->urls = ['retrieve' => $this->baseUrl . '/REST/message/:id', 'send' => $this->baseUrl . '.1/send'];
     }
 
     public function tokenizer($data): void
@@ -54,7 +53,6 @@ class Mailjet extends BaseProvider implements ProviderContract
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 }

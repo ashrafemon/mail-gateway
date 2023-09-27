@@ -4,7 +4,6 @@ namespace Leafwrap\MailGateways\Providers;
 
 use Exception;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Leafwrap\MailGateways\Contracts\ProviderContract;
 
 class Sparkpost extends BaseProvider implements ProviderContract
@@ -18,7 +17,7 @@ class Sparkpost extends BaseProvider implements ProviderContract
     public function urlGen(): void
     {
         $this->baseUrl = 'https://api.sparkpost.com/api/v1';
-        $this->urls = ['retrieve' => $this->baseUrl . '/transmissions/:id', 'send' => $this->baseUrl . '/transmissions'];
+        $this->urls = ['retrieve' => $this->baseUrl . '/events/message', 'send' => $this->baseUrl . '/transmissions'];
     }
 
     public function tokenizer($data): void
@@ -35,16 +34,14 @@ class Sparkpost extends BaseProvider implements ProviderContract
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
-
     }
 
     public function dataGen($data, $type = 'send'): array
     {
         $payload = [];
         if ($type === 'send') {
-            $payload = ['content' => ['from' => $data['from'], 'subject' => $data['subject'], 'text' => $data['content']['text'], 'html' => $data['content']['html']], 'recipients' => $data['to'], "options" => ["open_tracking" => false, "click_tracking" => false, "transactional" => true, "sandbox" => false, "inline_css" => false,]];
+            $payload = ['content' => ['from' => $data['from'], 'subject' => $data['subject'], 'text' => $data['content']['text'], 'html' => $data['content']['html']], 'recipients' => $data['to'], "options" => ["open_tracking" => false, "click_tracking" => false, "transactional" => true, "sandbox" => false, "inline_css" => false]];
         }
         return $payload;
     }
@@ -52,12 +49,11 @@ class Sparkpost extends BaseProvider implements ProviderContract
     public function retrieve($id)
     {
         try {
-            $client = Http::withHeaders($this->defaultHeaders)->get(str_replace(':id', $id, $this->urls['retrieve']));
+            $client = Http::withHeaders($this->defaultHeaders)->get($this->urls['retrieve'] . "?transmissions={$id}");
             if (!$client->successful()) {
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 }

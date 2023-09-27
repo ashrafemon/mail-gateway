@@ -34,7 +34,6 @@ class SendGrid extends BaseProvider implements ProviderContract
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 
@@ -55,7 +54,6 @@ class SendGrid extends BaseProvider implements ProviderContract
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 }

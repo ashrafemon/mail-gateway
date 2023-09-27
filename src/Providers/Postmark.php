@@ -4,7 +4,6 @@ namespace Leafwrap\MailGateways\Providers;
 
 use Exception;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Leafwrap\MailGateways\Contracts\ProviderContract;
 
 class Postmark extends BaseProvider implements ProviderContract
@@ -35,7 +34,6 @@ class Postmark extends BaseProvider implements ProviderContract
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 
@@ -56,7 +54,6 @@ class Postmark extends BaseProvider implements ProviderContract
             }
             return $client->json();
         } catch (Exception $e) {
-
         }
     }
 }
