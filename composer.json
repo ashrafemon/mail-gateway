@@ -1,0 +1,17 @@
+{
+    "name": "leafwrap/mail-gateways",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Leafwrap\\MailGateways\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ashraf Emon",
+            "email": "ashraf.emon143@gmail.com"
+        }
+    ],
+    "require": {}
+}
